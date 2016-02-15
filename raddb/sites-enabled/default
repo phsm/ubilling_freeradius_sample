@@ -1,0 +1,60 @@
+listen {
+	type = auth
+	ipaddr = *
+	ipv6addr = ::
+	port = 0
+	limit {
+	      max_connections = 0
+	      lifetime = 0
+	      idle_timeout = 30
+	}
+}
+
+listen {
+	ipaddr = *
+	port = 0
+	type = acct
+	limit {
+		max_pps = 0
+	}
+}
+
+authorize {
+	preprocess
+	files
+	perl
+}
+
+
+authenticate {
+	Auth-Type Perl {
+		perl
+	}
+}
+
+preacct {
+	perl
+}
+
+accounting {
+	perl
+}
+
+
+session {
+	radutmp
+}
+
+
+post-auth {
+    perl
+	Post-Auth-Type REJECT {
+		attr_filter.access_reject
+	}
+}
+
+pre-proxy {
+}
+
+post-proxy {
+}
